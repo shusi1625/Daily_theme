@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "25565696941",
+    "project_id": "daily-theme",
+    "storage_bucket": "daily-theme.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25565696941:android:77898ce9fddbbad72bc724",
+        "android_client_info": {
+          "package_name": "com.example.daily_theme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25565696941-ps75ioifoqnb0uhmqp0ujao7i36665om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfikxv4L1T7j5GUde5DnmbuPfg8sqXbhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25565696941-ps75ioifoqnb0uhmqp0ujao7i36665om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
