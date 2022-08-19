@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'account.dart';
+import 'writing.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+
+String? username;
+
+List<Object?>? following=['I am the Admin'];
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,13 +17,13 @@ void main() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Daily_theme',
-      home: Login(),//추후 데이터베이스와 연결하면 수정할 예정
+        debugShowCheckedModeBanner: false,
+    title: "Daily Theme",
+    home: Login(),
     );
   }
 }
@@ -26,11 +31,13 @@ class MyApp extends StatelessWidget {
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
 
+
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+
 
   final _authentication = FirebaseAuth.instance;
   User? loggedUser;
@@ -52,8 +59,9 @@ class _HomepageState extends State<Homepage> {
     } catch (e) {
       print(e);
     }}
-    @override
+
+   @override
     Widget build(BuildContext context) {
-      return Account();//메인으로 나올 화면을 설정하면 됩니다.
+      return writing();//메인으로 나올 화면을 설정하면 됩니다.
     }
 }

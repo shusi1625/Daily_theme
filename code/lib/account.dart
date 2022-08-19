@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 
-//일단 로그아웃 구현을 위해 앱바만 만들었습니다.
+//로그아웃 구현을 위해 앱바만 만들었습니다.
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
@@ -13,7 +13,6 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
   final _authentication = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

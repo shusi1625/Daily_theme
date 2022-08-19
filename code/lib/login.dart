@@ -1,7 +1,7 @@
 import 'package:daily_theme/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'account.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final _authentication = FirebaseAuth.instance;
 
@@ -95,7 +95,13 @@ class _LoginState extends State<Login> {
                                 fontSize: 14,
                                   color: Colors.black45
                               ),),
-                              onPressed: null),
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                        builder: (context) {
+                                          return FindMyPW();
+                                        }));
+                              }),
                         ],
                       ),
                       SizedBox(height: 20),
@@ -114,6 +120,8 @@ class _LoginState extends State<Login> {
                             try{
                             final newUser = await _authentication.signInWithEmailAndPassword(
                                 email: userEmail, password: userPW);
+                            FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid)
+                                .get().then((value) => username = value["username"]);
                             if(newUser.user != null) {
                             Navigator.push(context,
                                 MaterialPageRoute(
@@ -276,6 +284,16 @@ class _SignUpState extends State<SignUp> {
                               try{
                               final newUser = await _authentication.createUserWithEmailAndPassword(
                                   email: signEmail, password: signPW);
+                              FirebaseFirestore.instance.collection('user').doc(newUser.user!.uid)
+                              .set(
+                                {'username' : signName
+                                , 'email' : signEmail}
+                              );
+                              FirebaseFirestore.instance.collection('user').doc(newUser.user!.uid)
+                                  .get().then((value) => username = value["username"]);
+                              FirebaseFirestore.instance.collection('user/${newUser.user!.uid}/following').doc(newUser.user!.uid)
+                                  .get().then((value) => following = value["following"]);
+                              print(following);
                               if(newUser.user != null) {
                                 Navigator.push(context,
                                 MaterialPageRoute(
@@ -303,5 +321,79 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+}
+
+
+class FindMyPW extends StatefulWidget {
+  const FindMyPW({Key? key}) : super(key: key);
+
+  @override
+  State<FindMyPW> createState() => _FindMyPWState();
+}
+
+class _FindMyPWState extends State<FindMyPW> {
+  String emailForNew = '';
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+        backgroundColor: Color(0xffD8A575),
+    body: SingleChildScrollView(
+    child: Column(
+    children: [
+    Padding(padding: EdgeInsets.only(top: 20)),
+    Center(
+    child: Image(image: AssetImage('image/icon1.png'),),
+
+    ),
+
+      SizedBox(height: 30,),
+      
+      Container(
+        padding: EdgeInsets.all(45),
+        child: TextFormField(
+          key: ValueKey(6),
+          decoration: InputDecoration(
+            labelText: 'Email Address',
+        ),
+          onChanged: (value){
+            emailForNew = value;
+          },
+        ),
+      ),
+      SizedBox(height: 15),
+      ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Color(0xffD8AD7C)
+          ),
+          child: Text('           Send Email           ',
+            style: TextStyle(
+                color: Colors.white70
+            ),),
+          onPressed: ()async{
+              try{
+                await FirebaseAuth.instance
+                    .sendPasswordResetEmail(email: emailForNew);;
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) {
+                            return Login();
+                          }
+                      ));
+              }catch(e){
+                print(e);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: Duration(seconds: 1),
+                      content: Text(
+                        '이메일 전송에 실패했습니다. 다시 한 번 확인해주세요.',),
+                      backgroundColor: Colors.orange,
+                    ));        }
+            }),
+    ]))));
   }
 }
