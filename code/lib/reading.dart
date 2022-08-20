@@ -9,7 +9,7 @@ enum Set {
   time, like, subscribe
 }
 
-var set = Set.subscribe;
+var set = Set.time;
 
 class Reading extends StatefulWidget {
   const Reading({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class Reading extends StatefulWidget {
 class _ReadingState extends State<Reading> {
   @override
   Widget build(BuildContext context) {
-    set=Set.subscribe;
+    set=Set.time;
     return Scaffold(
       appBar: AppBar(
         title: Text('this is the test'),
