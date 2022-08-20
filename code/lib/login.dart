@@ -122,6 +122,7 @@ class _LoginState extends State<Login> {
                                 email: userEmail, password: userPW);
                             FirebaseFirestore.instance.collection('user').doc(FirebaseAuth.instance.currentUser!.uid)
                                 .get().then((value) => username = value["username"]);
+
                             if(newUser.user != null) {
                             Navigator.push(context,
                                 MaterialPageRoute(
